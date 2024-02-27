@@ -15,7 +15,9 @@ Or view and search recipes on the blog thanks to An external API (themealdb.com)
   
 `npm run dev` (run the server locally)
 
-
+Admin Page:
+Login: O_tomiris.05@mail.ru
+Password: Tomi2005
 The blog runs on localhost://4000
 
 

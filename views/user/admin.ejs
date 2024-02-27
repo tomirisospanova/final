@@ -1,0 +1,103 @@
+<div class="container my-4">
+    <h2>Add New User</h2>
+    <form action="/admin" method="POST" enctype="multipart/form-data">
+        <div class="mb-3">
+            <label for="name">Name</label>
+            <input type="text" class="form-control" id="name" name="name" required>
+        </div>
+        <div class="mb-3">
+            <label for="itemName">Username (English)</label>
+            <input type="text" class="form-control" id="itemName" name="itemName" required>
+        </div>
+        <div class="mb-3">
+            <label for="itemEmail">User Email</label>
+            <input type="email" class="form-control" id="itemEmail" name="itemEmail" required>
+        </div>
+        <div class="mb-3">
+            <label for="password">Password</label>
+            <input type="password" class="form-control" id="password" name="password" required minlength="8">
+        </div>
+        <button type="submit" class="btn btn-primary">Add User</button>
+    </form>
+
+    <hr>
+
+    <h2>Manage Users</h2>
+    <% items.forEach(item => { %>
+        <div class="card my-3">
+            <div class="card-body">
+                <h5 class="card-title"><%= item.username %></h5>
+                
+                <a href="#" data-id="<%= item._id %>" data-bs-toggle="modal" data-bs-target="#editUserModal" class="btn btn-primary editUserBtn">Edit</a>
+                <form action="/admin/user-delete/<%= item._id %>" method="POST" class="d-inline">
+                    <button type="submit" class="btn btn-danger">Delete</button>
+                </form>
+            </div>
+        </div>
+    <% }) %>
+
+    <!-- Edit User Modal HTML -->
+    <div id="editUserModal" class="modal fade" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <form id="editUserForm" method="POST">
+                    <div class="modal-header">						
+                        <h4 class="modal-title">Edit User</h4>
+                        <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">&times;</button>
+                    </div>
+                    <div class="modal-body">					
+                        <div class="form-group mb-4">
+                            <label for="name">Name</label>
+                            <input type="text" class="form-control" id="name" name="name" required>
+                        </div>
+                        <div class="form-group mb-4">
+                            <label for="itemName">Username (English)</label>
+                            <input type="text" class="form-control" id="itemName" name="itemName" required>
+                        </div>
+                        <div class="form-group mb-4">
+                            <label for="itemEmail">User Email</label>
+                            <input type="email" class="form-control" id="itemEmail" name="itemEmail" required>
+                        </div>
+                        <div class="form-group mb-4">
+                            <label for="role">User Role</label>
+                            <input type="text" id="role" name="role">
+                        </div> 				
+                    </div>
+                    <div class="modal-footer">
+                        <input type="button" class="btn btn-default" data-bs-dismiss="modal" value="Cancel">
+                        <input type="submit" class="btn btn-primary" value="Save">
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const editUserButtons = document.querySelectorAll('.editUserBtn');
+    
+        editUserButtons.forEach(button => {
+            button.addEventListener('click', function(event) {
+                event.preventDefault();
+                const userId = this.getAttribute('data-id');
+                fetch(`/admin/user/${userId}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        document.querySelector('#editUserForm #name').value = data.name;
+                        document.querySelector('#editUserForm #itemName').value = data.username;
+                        document.querySelector('#editUserForm #itemEmail').value = data.email;
+                        document.querySelector('#editUserForm #role').value = data.role || 'regular user'; 
+    
+                        const form = document.querySelector('#editUserForm');
+                        form.setAttribute('action', `/admin/user/${userId}`);
+                        // form.setAttribute('method', 'put');
+    
+
+                    })
+                    .catch(error => {
+                        console.error('Error fetching user data:', error);
+                    });
+            });
+        });
+    });
+    </script>

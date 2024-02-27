@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css">
+    
+    <!-- Google fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,300;0,500;0,900;1,300;1,500;1,900&display=swap" rel="stylesheet">
+    
+    <!-- CSS -->
+    <link rel="stylesheet" href="/css/style.css">
+    <title><%= typeof title != 'undefined'? `Recipe Blog - ${title}` : "Recipe Blog" %></title>
+    <link rel="icon" type="image/x-icon" href="/img/logo.png">
+</head>
+<body>
+    <div class="container mainbody shadow">
+    <!-- NavBar -->
+    <nav class="py-2 bg-light border-bottom">
+        <div class="container d-flex flex-wrap">
+            <ul class="nav me-auto">
+                <li class="nav-item"><a href="/" class="nav-link link-dark px-2 active" aria-current="page">Home</a></li>
+                <li class="nav-item"><a href="/#categories" class="nav-link link-dark px-2">Categories</a></li>
+                <% if (currentUser && currentUser.role === 'admin') { %>
+                    <li class="nav-item"><a href="/admin" class="nav-link link-dark px-2">Admin Panel</a></li>
+                <% } %>
+                <li class="nav-item"><a href="/submit-recipe" class="nav-link link-danger px-2">Submit Your Recipe</a></li>
+                <li class="nav-item"><a href="/about" class="nav-link link-dark px-2">About Me</a></li>
+            </ul>
+            <ul class="nav">
+                <% if (currentUser) { %>
+                    <li class="nav-item"><a href="/dashboard" class="nav-link link-dark px-2">DashBoard</a></li>
+                    <li class="nav-item">
+                        <form action="/logout?_method=DELETE" method="post">
+                            <button type="submit" class="nav-link btn btn-link link-dark px-2">Logout</button>
+                        </form>
+                    </li>
+                <% } else { %>
+                    <li class="nav-item"><a href="/login" class="nav-link link-dark px-2">Login</a></li>
+                    <li class="nav-item"><a href="/register" class="nav-link link-dark px-2">Sign up</a></li>
+                <% } %>
+            </ul>
+        </div>
+    </nav>
+
+        <!-- Header -->
+        <header class="py-3 border-bottom">
+            <div class="container d-flex flex-wrap justify-content-center">
+            <a href="/" class="d-flex align-items-center mb-3 mb-lg-0 me-lg-auto text-dark text-decoration-none">
+                <img src="/img/logo.png" class="mx-1" width="80" height="52" alt="Receipe Blog Logo">
+                <span class="fs-4">RECIPE BLOG</span>
+            </a>
+            <form action="/search" method="post" class="col-12 col-lg-auto mb-3 mb-lg-0">
+                <input type="search" name="searchtext" class="form-control" placeholder="Search..." aria-label="Search">
+            </form>
+            </div>
+        </header>
+
+        <main id="main-content">
+
+            <%- body -%>
+        </main>
+
+        <!-- Footer -->
+        <footer class="d-flex flex-wrap justify-content-between align-items-center py-3 border-top">
+            <div class="col-md-4 d-flex align-items-center">
+                <span class="text-muted">Tomiris Ospanova | SE-2202</span>
+            </div>
+
+            <ul class="nav col-md-4 justify-content-end list-unstyled d-flex">
+            <li class="ms-3"><a class="text-muted" href="https://www.linkedin.com" target="_blank" rel="noopener noreferrer">
+                <i class="bi bi-linkedin"></i></a>
+            </li>
+            <li class="ms-3"><a class="text-muted" href="https://github.com" target="_blank" rel="noopener noreferrer">
+                <i class="bi bi-github"></i></a>
+            </li>
+            <li class="ms-3"><a class="text-muted" href="https://twitter.com" target="_blank" rel="noopener noreferrer">
+                <i class="bi bi-twitter"></i></a>
+            </li>
+            </ul>
+        </footer>
+
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+    <script src="/js/script.js"></script>
+    <script>
+        // Fetch a random fact
+        fetch('https://uselessfacts.jsph.pl/random.json?language=en')
+            .then(response => response.json())
+            .then(data => {
+                const mainContent = document.getElementById('main-content');
+                const factDiv = document.createElement('div');
+                factDiv.innerHTML = `<h5>Random Fact</h5><p>${data.text}</p>`;
+    
+                // Добавляем факт в самый верх main
+                mainContent.insertBefore(factDiv, mainContent.firstChild);
+            })
+            .catch(error => console.error('Error fetching random fact:', error));
+    
+        // Fetch a random joke
+        fetch('https://v2.jokeapi.dev/joke/Any')
+            .then(response => response.json())
+            .then(data => {
+                const mainContent = document.getElementById('main-content');
+                const jokeDiv = document.createElement('div');
+                let jokeContent;
+                if (data.type === 'single') {
+                    jokeContent = data.joke;
+                } else {
+                    jokeContent = `${data.setup} - ${data.delivery}`;
+                }
+                jokeDiv.innerHTML = `<h5>Random Joke</h5><p>${jokeContent}</p>`;
+    
+                // Добавляем шутку в самый верх main, перед фактом
+                mainContent.insertBefore(jokeDiv, mainContent.firstChild);
+            })
+            .catch(error => console.error('Error fetching random joke:', error));
+    </script>
+</body>
+</html>

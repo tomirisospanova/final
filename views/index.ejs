@@ -1,0 +1,115 @@
+<!-- Carousel -->
+<div id="myCarousel" class="carousel slide mb-5" data-bs-ride="carousel">
+    <div class="carousel-indicators">
+      <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="0" class="" aria-label="Slide 1"></button>
+      <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="1" aria-label="Slide 2" class=""></button>
+      <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="2" aria-label="Slide 3" class="active" aria-current="true"></button>
+    </div>
+
+    <div class="carousel-inner">
+      <div class="carousel-item active">
+        <img src="/img/recipes1.jpg" class="d-block w-100" alt="Food 1" height="400">
+
+        <div class="container">
+          <div class="carousel-caption text-start">
+            <h1 class="text-dark" style="font-weight: 900;">Get A Random Recipe</h1>
+            <p class="text-dark">Click the button below to get a random recipe from us.</p>
+            <p><a class="btn btn-lg btn-primary" href="/random-recipe">Random Recipe</a></p>
+          </div>
+        </div>
+      </div>
+
+      <div class="carousel-item">
+        <img src="/img/food1.jpg" class="d-block w-100" alt="Food 1" height="400">
+        <div class="container">
+          <div class="carousel-caption">
+            <h1 class="text-dark" style="font-weight: 900;">Submit Your Own Recipe.</h1>
+            <p class="text-dark">You have a great recipe to share with us? Let's have it.</p>
+            <p><a class="btn btn-lg btn-primary" href="#submit-recipe">Submit Your Recipe</a></p>
+          </div>
+        </div>
+      </div>
+
+      <div class="carousel-item">
+        <img src="/img/food2.jpg" class="d-block w-100" alt="Food 1" height="400">
+        <div class="container">
+          <div class="carousel-caption text-end">
+            <h1 class="text-dark" style="font-weight: 900;">Explore Recipes by our Users</h1>
+            <p class="text-dark">See Recipes posted by our users.</p>
+            <p><a class="btn btn-lg btn-primary" href="/user/meals">Explore</a></p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <button class="carousel-control-prev" type="button" data-bs-target="#myCarousel" data-bs-slide="prev">
+      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Previous</span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#myCarousel" data-bs-slide="next">
+      <span class="carousel-control-next-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Next</span>
+    </button>
+</div>
+
+
+
+
+  <!-- Categories -->
+<section class="pb-4 pt-4" id="categories">
+    <h3>Categories</h3>
+
+  <div class="row row-cols-2 row-cols-lg-6 g-2 g-lg-3 py-4">
+
+    <% if(categories != '') { %>
+      <% categories.forEach(category => { %>
+        <div class="col text-center category__link">
+          <a href="/categories/<%- category.strCategory %>" class="text-deco">
+            <div class="category__img shadow">
+              <img src="<%= category.strCategoryThumb %>" alt="<%= category.strCategory %>">
+            </div>
+            <div class="pt-1"><b><%= category.strCategory %></b></div>
+          </a>
+        </div>
+      <% }) %>
+    <% } %>
+  </div>
+
+</section>
+
+
+  <!-- Users Posts -->
+<div id="userMeals">
+  <div class="d-flex mb-2 align-items-center">
+  <h3>Latest Recipes By Our Users</h3>
+  <a href="/user/meals" class="ms-auto text-deco">View More</a>
+  </div>
+<div class="row row-cols-2 row-cols-lg-6 g-2 g-lg-3 py-4">
+
+
+  <% if(meals != '') { %>
+    <% meals.forEach(meal => { %>
+      <div class="col text-center category__link">
+        <a href="/user/meal/<%- meal._id %>" class="text-deco">
+           <div class="category__img shadow">
+            <img src="/uploads/<%= meal.image %>" alt="<%= meal.mealName %>">
+          </div>
+          <div class="pt-1"><b><%= meal.mealName %></b></div>
+        </a>
+      </div>
+    <% }) %>
+  <% } %>
+  </div>
+
+
+<!-- Submit Receipe -->
+<section id="submit-recipe" class="px-4 py-5 my-5 text-center">
+  <img src="/img/cookbook-bg.png" class="d-block mx-auto" alt="Publish your recipe for FREE today" width="360" height="300" loading="lazy">
+  <h1 class="display-5 fw-bold">Publish your recipe</h1>
+  <div class="col-lg-6 mx-auto">
+    <p class="lead mb-4">You can publish your own recipe</p>
+    <div class="d-grid gap-2 d-sm-flex justify-content-sm-center">
+      <a href="/submit-recipe" class="btn btn-primary btn-dark btn-lg">Submit Recipe</a>
+    </div>
+  </div>
+</section>

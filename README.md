@@ -1,7 +1,7 @@
 # RECIPE BLOG
 
 A recipe blog where users can sign up, login and post their recipes
-Or view and search recipes on the blog thanks to An external API (themealdb.com) and then blog  have Random Jokes and facts to be positive:)
+Or view and search recipes on the blog thanks to An external API (themealdb.com) and then blog  have Random Jokes and facts API to be positive:)
 
 ### Technologies used:
 - Node Js & Express Js (Backend)

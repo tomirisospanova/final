@@ -17,7 +17,7 @@ Or view and search recipes on the blog thanks to An external API (themealdb.com)
 
 Admin Page:
 Login: O_tomiris.05@mail.ru
-Password: Tomi2005
+Password: qwerty2004
 The blog runs on localhost://4000
 
 
